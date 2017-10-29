@@ -1,10 +1,13 @@
-# SLIK Installer
-This is a Salt formula for installing/configuring a SLIK stack. It is intended to be (eventually) used by the [SLIK installer](https://github.com/jdshewey/slik-installer). Whereas the [Katello Salt formula](https://github.com/jdshewey/salt-formula-katello) uses the existing upstream installer (which is puppet based) and then includes a module for configuring The Foreman in the Katello scenario using a module for interacting with The Forman using the REST API, this code intends to be a complete replacement for the puppet-based [forman-installer](https://github.com/theforeman/foreman-installer).
-
 # What is a SLIK stack?
 SLIK stands for [Saltstack](https://saltstack.com/), [Linux](https://www.centos.org), [IPA](https://www.freeipa.org/page/Main_Page) and [Katello](https://github.com/Katello/katello). This is essentially a [Red Hat Satellite 6](https://access.redhat.com/products/red-hat-satellite) + [FreeIPA](https://www.freeipa.org/page/Main_Page) user (LDAP and Kerberos) and DNS management, configuration management and system deployment stack. FreeIPA and Satellite 6 really fit together like a hand in a glove, but oddly, FreeIPA is not included as part of the Satellite 6 stack. Furthermore, Satellite 6 is really based on Katello. The Katello project brings together the [Candlepin](http://www.candlepinproject.org/) license management system and [Pulp](http://pulpproject.org/) backends with heavy [Kickstart](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Installation_Guide/sect-kickstart-howto.html) server deployment script integration as well as loose [Docker](https://www.docker.com/) container management. Katello is then skinned with [The Foreman](https://www.theforeman.org/) front end. More recently, it appears that Katello is merging into The Foremen having moved all of the Katello docs to their site. This means that the Katello stack (minus Candlepin license management) is available for all CentOS servers and that your CentOS server can manage all of your RedHat servers (including licensing) or vice-versa. Katello also integrates with numerous virtualization systems and cloud providers including VMWare, OpenStack, Amazon Web Services, [Google's cloud](https://cloud.google.com) platform, [Rackspace](https://www.rackspace.com) and [others](https://theforeman.org/manuals/latest/index.html#5.2ComputeResources). This helps to prevent you from being tied to a specific cloud by using, for example, Amazon's automated deployment and continuous deployment tools. You can freely move between clouds or your own environment.
 
-#To Do:
+# What are you up to?
+This project aims to be a full Salt Stack based replacement for the foreman installer (which uses Puppet) with a few lofty future goals to bring better Salt and FreeIPA integration to The Foreman.
 
- - Convert puppet modules from /usr/share/katello-installer-base/modules to salt formulas
- - Fill out this list with additional objectives
+# How do I use it?
+Unforutnately, this is not yet a working product. In the meantime, please try out the [katello formula](https://github.com/jdshewey/salt-formula-katello) and [SLIK installer](https://github.com/jdshewey/slik-installer). We hope to have this up and working soon. If you can, please contribute!
+
+# Contributing
+See the [isses](https://github.com/jdshewey/slik/issues) and [milestones](https://github.com/jdshewey/slik/milestones), fork the project and begin tackling one of these. Once you think you have a working formula, create a pull request for review. Your help on this prject is greatly appreciated!
+
+ 
