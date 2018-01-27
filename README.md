@@ -5,9 +5,22 @@ SLIK stands for [Saltstack](https://saltstack.com/), [Linux](https://www.centos.
 This project aims to be a full Salt Stack based replacement for the foreman installer (which uses Puppet) with a few lofty future goals to bring better Salt and FreeIPA integration to The Foreman.
 
 # How do I use it?
-Unforutnately, this is not yet a working product. In the meantime, please try out the [katello formula](https://github.com/jdshewey/salt-formula-katello) and [SLIK installer](https://github.com/jdshewey/slik-installer). We hope to have this up and working soon. If you can, please contribute!
+Unforutnately, this is not yet a working product. In the meantime, please try out the [katello formula](https://github.com/jdshewey/salt-formula-katello) and [SLIK installer](https://github.com/jdshewey/slik-installer). If you would like to contribute, this framework is intended to be really similar to the katello formula and uses a fork of the SLIK installer. So, to start developing:
+
+ 1. wget https://raw.githubusercontent.com/jdshewey/slik/master/slik.sh
+ 2. chmod +x slik.sh
+ 3. ./slik.sh --develop
+ 4. use https://github.com/salt-formulas/salt-formula-freeipa to install freeipa with DNS
+ 5. Begin working to make katello install without puppet alongside freeIPA
+ 6. Once install is working, merge in everything from the katello formula after IPA is installed
 
 # Contributing
 See the [isses](https://github.com/jdshewey/slik/issues) and [milestones](https://github.com/jdshewey/slik/milestones), fork the project and begin tackling one of these. Once you think you have a working formula, create a pull request for review. Your help on this prject is greatly appreciated!
 
- 
+ * A list of issues and a roadmap is available at https://github.com/jdshewey/slik/issues
+ * If you decide to work on the python module, be sure to lint your code using pylint
+
+#  Attribution
+Created by James Shewey<br>
+jdshewey.com<br>
+jdshewey@gmail.com<br>	 
