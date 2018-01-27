@@ -39,7 +39,9 @@ schedule:
 use_superseded:
   - module.run" > /etc/salt/minion
 	cd /srv/salt/
-	git clone https://github.com/jdshewey/salt-formula-slik.git slik/
+	git clone https://github.com/jdshewey/slik.git slik/
+        git clone https://github.com/salt-formulas/salt-formula-freeipa freeipa/
+	git clone https://github.com/salt-formulas/salt-formula-openssh openssh/
         if [ "$1" == "--develop" ]; then
 		ln -s /srv/salt/slik/examples/server/slik.sls /srv/pillar/slik/server.sls # should only be used by developers
 	else
@@ -49,8 +51,8 @@ use_superseded:
 	mkdir -p /srv/salt/_modules
 	ln -s /srv/salt/slik/_modules/slik.py /srv/salt/_modules/slik.py
 	echo "base:
-  '*':
-    - slik.client
+#  '*':
+#    - slik.client
   $(hostname):
     - slik.server" > /srv/salt/top.sls
 	echo "base:
