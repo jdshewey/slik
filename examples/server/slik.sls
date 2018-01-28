@@ -9,7 +9,7 @@ freeipa:
       enabled: True
 openssh:
   server:
-    enabled: False
+    enabled: True
 katello:
   server:
     admin_user: admin
