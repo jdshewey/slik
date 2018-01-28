@@ -41,7 +41,13 @@ use_superseded:
 	cd /srv/salt/
 	git clone https://github.com/jdshewey/slik.git slik/
         git clone https://github.com/salt-formulas/salt-formula-freeipa freeipa/
+	mv freeipa/freeipa /tmp
+	rm -rf freeipa
+	mv tmp freeipa
 	git clone https://github.com/salt-formulas/salt-formula-openssh openssh/
+	mv openssh/openssh tmp
+	rm -rf openssh
+	mv tmp openssh
         if [ "$1" == "--develop" ]; then
 		ln -s /srv/salt/slik/examples/server/slik.sls /srv/pillar/slik/server.sls # should only be used by developers
 	else
@@ -71,7 +77,6 @@ use_superseded:
 	setenforce 0
 	sed -i -e 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/sysconfig/selinux 
 	sed -i -e 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/selinux/config 
-	echo "current_tty: $( tty )" > /etc/salt/grains
 	bash -c "exit 1"
 	while [ "$?" -gt "0" ]; do
 		echo "Enter a password to be used for this deployment [random]:"
