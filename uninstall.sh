@@ -1,7 +1,23 @@
 #/bin/bash
 systemctl stop salt-minion
 echo "
-  * The salt master and minion services and packages will be removed." 
+  This uninstaller will uninstall the following:
+
+  * The salt master and minion services and packages will be removed. 
+  * The contents of /srv/salt and /srv/pillar will be deleted
+  * FreeIPA will be removed
+  * BIND services and all zones will be removed
+  * Certmonger and related certificates will be removed
+  * Tomcat will be removed
+  * Pulp and pulp repos (yum repos) will be removed
+  * Apache (httpd) and all related configurations including /var/www/* will be removed
+  * MongoDB, postgres and their databases will be removed"
+
+if [ -e "/usr/sbin/ipa-server-install"];  then 
+	ipa-server-install --uninstall
+if
+
+rm -rf /var/lib/ipa/sysrestore/sysrestore.state >> /dev/null 2>&1
 
 yum -y remove 389-ds-base \
 389-ds-base-libs \
