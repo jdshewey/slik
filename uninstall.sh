@@ -165,6 +165,9 @@ xmlrpc-c-client \
 xpp3 \
 xsom \
 subscription-manager \
+salt \
+salt-minion \
+salt-master \
 salt-repo-latest-2.el7.noarch 
 
 if [ $? == 0 ]; then

@@ -40,18 +40,18 @@ use_superseded:
   - module.run" > /etc/salt/minion
 	cd /srv/salt/
 	git clone https://github.com/jdshewey/slik.git slik/
-        git clone https://github.com/salt-formulas/salt-formula-freeipa freeipa/
-	mv freeipa/freeipa /tmp
-	rm -rf freeipa
-	mv tmp freeipa
-	git clone https://github.com/salt-formulas/salt-formula-openssh openssh/
-	mv openssh/openssh tmp
-	rm -rf openssh
-	mv tmp openssh
+        git clone https://github.com/salt-formulas/salt-formula-freeipa.git
+	mv salt-formula-freeipa/freeipa freeipa
+	rm -rf salt-formula-freeipa
+	git clone https://github.com/salt-formulas/salt-formula-openssh
+	mv salt-formula-openssh/openssh openssh
+	rm -rf salt-formula-openssh
         if [ "$1" == "--develop" ]; then
 		ln -s /srv/salt/slik/examples/server/slik.sls /srv/pillar/slik/server.sls # should only be used by developers
 	else
 		cp /srv/salt/slik/examples/server/slik.sls /srv/pillar/slik/server.sls
+		echo $1
+                pause
         fi
 	cp -rp /srv/salt/slik/examples/client/* /srv/pillar/slik/client/
 	mkdir -p /srv/salt/_modules
@@ -141,9 +141,6 @@ Write it down, then press any key to continue."
 	systemctl start salt-minion
 	echo "Continuing... this installation may take a very long time - an hour or more."
 	sed -i -e "s/^    admin_pass: .*/    admin_pass: $PASSWORD/" /srv/pillar/slik/server.sls
-	if [ "$(grep $( hostname ) /etc/hosts | wc -l)" -lt "1" ]; then
-		sed -i -e "s/127\.0\.0\.1\s\+/127\.0\.0\.1   $( hostname ) /g" /etc/hosts
-	fi
 	if [ "$1" != "--develop" ]; then
 		salt-call state.apply
 	fi
