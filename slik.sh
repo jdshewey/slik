@@ -91,7 +91,6 @@ use_superseded:
 
 	else
 		cp /srv/salt/slik/examples/server/slik.sls /srv/pillar/slik/server.sls
-                pause
         fi
 
 ##########################################
