@@ -170,6 +170,9 @@ salt-minion \
 salt-master \
 salt-repo-latest-2.el7.noarch 
 
+#fixup for https://bugzilla.redhat.com/show_bug.cgi?id=1304618
+rm -rf /etc/systemd/system/httpd.service.d
+
 if [ $? == 0 ]; then
         yum -y remove subscription-manager salt-repo-latest-2.el7.noarch
 	rm -rf /etc/yum.reps.d/*

@@ -30,38 +30,52 @@ if [ "$( cat /etc/*release | grep VERSION_ID | awk -F\" '{print $2}' | awk -F. '
 	yum -y install salt-master salt-minion git
 	rm -rf /etc/yum.repos.d/*
 	mkdir -p /srv/pillar/slik/client /srv/salt
-	echo "auto_accept: True" > /etc/salt/master
-	echo "master: $(hostname)
+        if [ "$1" == "--develop" ]; then
+		# Pull from git the required formulas
+		if [ -d "/opt/slik-packaging/slik"]; then
+			ln -s /opt/slik-packaging/slik
+                else
+			git clone https://github.com/jdshewey/slik.git /opt/slik-packaging/slik
+			ln -s /opt/slik-packaging/slik /srv/salt/slik
+		fi
+		if [ -d "/opt/slik-packaging/salt-formula-freeipa"]; then
+			ln -s /opt/slik-packaging/salt-formula-freeipa/freeipa /srv/salt/slik
+                else
+			git clone https://github.com/jdshewey/slik.git /opt/slik-packaging/salt-formula-freeipa
+			ln -s /opt/slik-packaging/salt-formula-freeipa/freeipa /srv/salt/freeipa
+		fi
+		if [ -d "/opt/slik-packaging/salt-formula-freeipa"]; then
+			ln -s /opt/slik-packaging/salt-formula-freeipa/freeipa /srv/salt/slik
+                else
+			git clone https://github.com/salt-formulas/salt-formula-openssh.git /opt/slik-packaging/salt-formula-openssh
+			ln -s /opt/slik-packaging/salt-formula-freeipa/freeipa /srv/salt/freeipa
+		fi
+
+		ln -s /srv/salt/slik/examples/server/slik.sls /srv/pillar/slik/server.sls
+
+##########################################
+#
+#   From here down needs to make it into rpm
+#
+##########################################
+
+		echo "auto_accept: True" > /etc/salt/master
+		echo "master: $(hostname)
 schedule:
   highstate:
     function: state.highstate
     minutes: 60
 use_superseded:
   - module.run" > /etc/salt/minion
-	cd /srv/salt/
-	git clone https://github.com/jdshewey/slik.git slik/
-        git clone https://github.com/salt-formulas/salt-formula-freeipa.git
-	mv salt-formula-freeipa/freeipa freeipa
-	rm -rf salt-formula-freeipa
-	git clone https://github.com/salt-formulas/salt-formula-openssh
-	mv salt-formula-openssh/openssh openssh
-	rm -rf salt-formula-openssh
-        if [ "$1" == "--develop" ]; then
-		ln -s /srv/salt/slik/examples/server/slik.sls /srv/pillar/slik/server.sls # should only be used by developers
-	else
-		cp /srv/salt/slik/examples/server/slik.sls /srv/pillar/slik/server.sls
-		echo $1
-                pause
-        fi
-	cp -rp /srv/salt/slik/examples/client/* /srv/pillar/slik/client/
-	mkdir -p /srv/salt/_modules
-	ln -s /srv/salt/slik/_modules/slik.py /srv/salt/_modules/slik.py
-	echo "base:
+		cp -rp /srv/salt/slik/examples/client/* /srv/pillar/slik/client/
+		mkdir -p /srv/salt/_modules
+		ln -s /srv/salt/slik/_modules/slik.py /srv/salt/_modules/slik.py
+		echo "base:
 #  '*':
 #    - slik.client
   $(hostname):
     - slik.server" > /srv/salt/top.sls
-	echo "base:
+		echo "base:
 #  '*':
 #    - slik.client
   $(hostname):
@@ -71,9 +85,22 @@ use_superseded:
   <short>SaltStack</short>
   <description>SaltStack is a configuration management system for automated management of many minion endpoints.</description>
   <port protocol=\"tcp\" port=\"4505-4506\"/>
-</service>" > /usr/lib/firewalld/services/saltstack.xml
+</service>" > /usr/lib/firewalld/services/slik.xml
 	firewall-cmd --reload
-	firewall-cmd --zone=public --permanent --add-service=saltstack
+	firewall-cmd --zone=public --permanent --add-service=slik
+
+	else
+		cp /srv/salt/slik/examples/server/slik.sls /srv/pillar/slik/server.sls
+                pause
+        fi
+
+##########################################
+#
+#   From here down stays in the installer
+#
+##########################################
+
+
 	setenforce 0
 	sed -i -e 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/sysconfig/selinux 
 	sed -i -e 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/selinux/config 
