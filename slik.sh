@@ -38,17 +38,17 @@ if [ "$( cat /etc/*release | grep VERSION_ID | awk -F\" '{print $2}' | awk -F. '
 			git clone https://github.com/jdshewey/slik.git /opt/slik-packaging/slik
 			ln -s /opt/slik-packaging/slik /srv/salt/slik
 		fi
-		if [ -d "/opt/slik-packaging/salt-formula-freeipa"]; then
+		if [ -d "/opt/slik-packaging/salt-formula-freeipa" ]; then
 			ln -s /opt/slik-packaging/salt-formula-freeipa/freeipa /srv/salt/slik
                 else
 			git clone https://github.com/jdshewey/slik.git /opt/slik-packaging/salt-formula-freeipa
 			ln -s /opt/slik-packaging/salt-formula-freeipa/freeipa /srv/salt/freeipa
 		fi
-		if [ -d "/opt/slik-packaging/salt-formula-freeipa"]; then
+		if [ -d "/opt/slik-packaging/salt-formula-openssh" ]; then
 			ln -s /opt/slik-packaging/salt-formula-freeipa/freeipa /srv/salt/slik
                 else
 			git clone https://github.com/salt-formulas/salt-formula-openssh.git /opt/slik-packaging/salt-formula-openssh
-			ln -s /opt/slik-packaging/salt-formula-freeipa/freeipa /srv/salt/freeipa
+			ln -s /opt/slik-packaging/salt-formula-openssh/openssh /srv/salt/openssh
 		fi
 
 		ln -s /srv/salt/slik/examples/server/slik.sls /srv/pillar/slik/server.sls
