@@ -13,13 +13,13 @@ echo "
   * Apache (httpd) and all related configurations including /var/www/* will be removed
   * MongoDB, postgres and their databases will be removed"
 
-if [ -e "/usr/sbin/ipa-server-install"];  then 
+if [ -e "/usr/sbin/ipa-server-install" ];  then 
 	ipa-server-install --uninstall
-if
+fi
 
 rm -rf /var/lib/ipa/sysrestore/sysrestore.state >> /dev/null 2>&1
 
-yum -y remove 389-ds-base \
+yum remove 389-ds-base \
 389-ds-base-libs \
 antlr-tool \
 args4j \
@@ -90,9 +90,7 @@ libwbclient \
 msv-msv \
 msv-xsdlib \
 nfs-utils \
-ntp \
-ntpdate \
-nuxwdog \
+uxwdog \
 objectweb-asm \
 oddjob \
 open-sans-fonts \
@@ -170,10 +168,11 @@ salt-minion \
 salt-master \
 salt-repo-latest-2.el7.noarch 
 
-#fixup for https://bugzilla.redhat.com/show_bug.cgi?id=1304618
-rm -rf /etc/systemd/system/httpd.service.d
 
-if [ $? == 0 ]; then
+if (( $? == 0 )); then
+	#fixup for https://bugzilla.redhat.com/show_bug.cgi?id=1304618
+	rm -rf /etc/systemd/system/httpd.service.d
+
         yum -y remove subscription-manager salt-repo-latest-2.el7.noarch
 	rm -rf /etc/yum.reps.d/*
 	cp -rp /etc/slik/rpm-sources-backup/* /etc/yum.repos.d/
