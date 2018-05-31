@@ -183,4 +183,6 @@ if (( $? == 0 )); then
         rm -rf /var/www/html/pub/*
 	rm -rf /srv/pillar
 	rm -rf /srv/salt
+        rm -rf /var/lib/dirsrv
+        rm -rf /var/lib/pki/pki-tomcat
 fi
