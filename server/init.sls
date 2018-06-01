@@ -1,9 +1,9 @@
-{%- if pillar.freeipa.server is defined %}
-katello_sources:
+slik_sources:
   file.managed:
-    - name: /etc/yum.repos.d/katello-install.repo
+    - name: /etc/yum.repos.d/slik-install.repo
     - source:  salt://slik/files/slik-install.repo
     - template: jinja
+{%- if pillar.freeipa.server is defined %}
     - require_in:
       - pkg: freeipa_server_pkgs
 127.0.0.1:
@@ -57,6 +57,11 @@ slik_progress_2:
     - creates: /etc/ipa/default.conf 
 {%- endif %}
 
+foreman_install_pkgs:
+  cmd.run:
+    - name: yum -y install foreman >> $(tty) 2>&1
+
+{%- if pillar.freeipa.server is defined %}
 slik_install_pkgs:
   cmd.run:
     - name: yum -y install katello >> $(tty) 2>&1

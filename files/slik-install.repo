@@ -1,4 +1,4 @@
-{%- set foreman_beta = '1.17' %}
+{%- set foreman_beta = '1.18' %}
 {%- set katello_beta = '3.6' %}
 {%- set katello_source = 'https://fedorapeople.org/groups/katello/releases/yum' %}
 
@@ -43,6 +43,13 @@ baseurl=https://mirrors.kernel.org/centos/7/sclo/x86_64/rh/
 gpgcheck=0
 enabled=1
 sslverify=1
+
+[Rails_51]
+baseurl = https://yum.theforeman.org/rails/foreman-1.17/el7/x86_64/
+sslverify = 1
+name = Rails
+enabled = 1
+gpgcheck = 0
 
 [Foreman]
 {%- if pillar.katello.server.nightly is defined %}
@@ -150,12 +157,5 @@ gpgcheck = 0
 baseurl = https://repo.saltstack.com/yum/redhat/7/x86_64/latest/
 sslverify = 1
 name = SaltStack
-enabled = 1
-gpgcheck = 0
-
-[Puppet]
-baseurl = https://yum.puppetlabs.com/el/7/PC1/x86_64/  
-sslverify = 1
-name = Puppet
 enabled = 1
 gpgcheck = 0
